@@ -1,0 +1,27 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "quiz game for comp sci",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ameer Hamoodi",
+  "license": "MIT",
+  "engines": {
+    "node": "10.9.0",
+    "npm": "6.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "babel-loader": "^8.0.6",
+    "gulp": "^4.0.2",
+    "webpack": "^4.39.3",
+    "webpack-stream": "^5.2.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  }
+}
