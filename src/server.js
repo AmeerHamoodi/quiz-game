@@ -7,6 +7,7 @@ var users = [];
 var rooms = [];
 
 server.listen(process.env.PORT || 3000);
+console.log("Started");
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/client/index.html");

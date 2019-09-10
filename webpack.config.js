@@ -1,16 +1,23 @@
 module.exports = {
-  entry: "./src/client/js/main.js",
-  output: "./dist/client/js/bundle.js",
-  rules: [
-    {
-      test: /\.m?js$/,
-      exclude: /(node_modules|bower_components)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env']
-        }
-      }
-    }
-  ]
+  entry: {
+    main: './src/client/js/main.js'
+  },
+  output: {
+    filename: 'bundle.js',
+    path: __dirname + "/dist/client/js"
+  },
+  module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true
+                    }
+                }
+            }
+        ]
+  }
 }
