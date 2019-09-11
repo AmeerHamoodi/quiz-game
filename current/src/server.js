@@ -18,11 +18,10 @@ app.use(express.static(__dirname + "/client"));
 var io = require("socket.io")(server);
 
 class User{
-  constructor(id, name, page){
+  constructor(id, name){
     this.id = id;
     this.name = name;
     this.score = 0;
-    this.page = page;
   }
   join(room){
     let socket = SOCKET_LIST[this.id];
@@ -47,9 +46,9 @@ class Room{
 io.on("connection", function(socket){
   socket.id = Math.random();
   SOCKET_LIST[socket.id] = socket;
-
   users.push(new User(socket.id, "Guest"));
   socket.room = lobbies[0].name;
+  console.log(socket.room);
   socket.join("default");
   socket.emit("init", {room: lobbies[0].name, id: lobbies[0].id});
   for(i=0; i < lobbies.length; i++){

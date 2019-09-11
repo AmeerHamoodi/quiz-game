@@ -4,7 +4,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: __dirname + "/dist/client/js"
+    path: __dirname + "./dist/client/js"
   },
   module: {
         rules: [
