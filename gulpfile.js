@@ -14,7 +14,7 @@ function html(){
 }
 
 function css(){
-  return gulp.src("./src/client/css/master.css")
+  return gulp.src("./src/client/css/*.css")
     .pipe(gulp.dest("./dist/client/css"))
 }
 function watchJS(){
@@ -22,6 +22,10 @@ function watchJS(){
 }
 function watchHTML(){
   gulp.watch('src/client/*.html', html);
+}
+function sendIm() {
+  return gulp.src("./src/client/img/**")
+    .pipe(gulp.dest("./dist/client/img"))
 }
 function watchCSS(){
   gulp.watch('src/client/css/*.css', gulp.parallel(css));
@@ -37,4 +41,4 @@ module.exports.build = build;
 module.exports.html = html;
 module.exports.css = css;
 module.exports.watch = gulp.parallel(watchJS, watchHTML, watchCSS);
-module.exports.default = gulp.parallel(build, html, css, watchJS, watchHTML, watchCSS, startServer);
+module.exports.default = gulp.parallel(build, html, css, watchJS, watchHTML, watchCSS, startServer, sendIm);
