@@ -1,7 +1,8 @@
-(function(){
+
   let c = document.getElementById('c'),
   h = document.getElementById('head'),
-  a = document.getElementById('ab');
+  a = document.getElementById('ab'),
+  st = document.getElementById('start');
   'use strict';
 
   function isElementInViewport (el) {
@@ -21,16 +22,19 @@
     );
 }
   function checkElem() {
-    if(isElementInViewport(c)){
-      c.classList.add("accountV");
-      c.classList.remove("account");
-    }
-
     if(isElementInViewport(a)){
       console.log("yes");
       a.classList.add("aboutV");
       a.classList.remove("about");
     }
+    if(isElementInViewport(c)){
+      c.classList.add("accountV");
+      c.classList.remove("account");
+    }
   }
   setInterval(checkElem, 100);
-})();
+
+  start.addEventListener('click', (e) => {
+    console.log("test");
+    window.location.href = "/lobbies.html";
+  });

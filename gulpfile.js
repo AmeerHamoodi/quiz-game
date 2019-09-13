@@ -6,10 +6,11 @@ const nodemon = require("gulp-nodemon");
 function build(){
   return gulp.src('./src/client/js/main.js')
     .pipe(webpack(require("./webpack.config.js")))
-    .pipe(gulp.dest("./dist/client/js"))
+    .pipe(gulp.dest("./dist/client/js"));
+    console.log("building");
 }
 function html(){
-  return gulp.src("./src/client/index.html")
+  return gulp.src("./src/client/*.html")
     .pipe(gulp.dest("./dist/client"))
 }
 

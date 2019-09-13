@@ -6,3 +6,13 @@
 		opacity: 1;
 	}
 }
+@keyframes bgBs {
+	0% {
+		box-shadow: 10px 4px 5px rgba(124, 219, 213);
+		background-color: rgba(131, 166, 247, 1);
+	}
+	100% {
+		box-shadow: 10px 4px 5px rgba(131, 166, 247, 1);
+		background-color: rgba(124, 219, 213);
+	}
+}
