@@ -4,8 +4,11 @@ var app = express();
 var server = require("http").Server(app);
 var SOCKET_LIST = {};
 var rString = utils.randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-var lobbies = [{name:"default", id:rString, members:0, max:2}];
+var lobbies = [{name:"default", id:rString, people:0, max:2, category: "Biology"}];
 var users = [];
+var htmlDir = __dirname + "/client";
+
+var questions = require("./questions.js");
 
 server.listen(3000);
 console.log("Starting server");
@@ -14,7 +17,7 @@ app.get("/", function(req, res){
   res.sendFile(__dirname + "/client/index.html");
 });
 
-app.use(express.static({extensions: ['html', 'htm'], path: __dirname + "/client"}));
+app.use(express.static(htmlDir, { extensions: ['html'] }));
 
 var io = require("socket.io")(server);
 
@@ -24,11 +27,10 @@ class User{
     this.name = name;
     this.score = 0;
     this.page = page;
+    this.room = "default";
   }
   join(room){
-    let socket = SOCKET_LIST[this.id];
-    socket.join(room.name);
-    socket.emit("newRoom", room);
+    this.room = room;
   }
   disconnect(){
     delete SOCKET_LIST[this.id];
@@ -39,9 +41,19 @@ class Room{
   constructor(id, name){
     this.id = id;
     this.name = name;
-    this.people = 0;
+    this.people = 2;
     this.max = 2;
     this.users = [];
+    this.category = "Biology";
+    this.phase = "menu";
+    this.q = 0;
+  }
+  startGame(){
+    io.to(this.name).emit("start", {message: "Starting game . . . "});
+    this.phase = "game";
+  }
+  sendQuestions(){
+    io.to(this.name).emit("question", {q: questions[0].question, a: questions[0].answers});
   }
 }
 
@@ -52,7 +64,7 @@ io.on("connection", function(socket){
   users.push(new User(socket.id, "Guest"));
   socket.room = lobbies[0].name;
   socket.join("default");
-  socket.emit("init", {room: lobbies[0].name, id: lobbies[0].id});
+  socket.emit("init", lobbies);
   for(i=0; i < lobbies.length; i++){
     io.to("default").emit("lobbies", lobbies[i]);
   }
@@ -61,7 +73,6 @@ io.on("connection", function(socket){
     let ri = utils.randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
     let n = data;
     lobbies.push(new Room(ri, n));
-    console.log(lobbies);
     for(e=0; e < users.length; e++){
       if(users[e].id == socket.id){
         u = users[e];
@@ -74,11 +85,16 @@ io.on("connection", function(socket){
         socket.leave("default");
         socket.join(n);
         socket.room = n;
-        console.log(socket.room);
         socket.broadcast.emit("lobbies", lobbies[i]);
         socket.emit("lob", {id: lobbies[i].id, name: lobbies[i].name});
       }
     }
+  });
+
+  socket.on("room", function(data) {
+    socket.join(data);
+    socket.leave("default");
+    socket.room = data;
   });
 
   socket.on("disconnect", function(data){
@@ -90,3 +106,13 @@ io.on("connection", function(socket){
     }
   });
 });
+
+function checkRooms() {
+  for(i=0; i < lobbies.length; i ++){
+    console.log("checking");
+    if(lobbies[i].people >= 2){
+      lobbies[i].startGame();
+    }
+  }
+}
+setInterval(checkRooms, 500);

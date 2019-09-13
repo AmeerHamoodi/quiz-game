@@ -1,9 +1,8 @@
-
   let c = document.getElementById('c'),
   h = document.getElementById('head'),
   a = document.getElementById('ab'),
-  st = document.getElementById('start');
-  'use strict';
+  st = document.getElementById('start'),
+  lob = document.getElementById('lob');
 
   function isElementInViewport (el) {
 
@@ -32,9 +31,11 @@
       c.classList.remove("account");
     }
   }
-  setInterval(checkElem, 100);
+  if(!lob){
+    setInterval(checkElem, 100);
 
-  start.addEventListener('click', (e) => {
-    console.log("test");
-    window.location.href = "/lobbies.html";
-  });
+    start.addEventListener('click', (e) => {
+      console.log("test");
+      window.location.href = "/lobbies.html";
+    });
+  }

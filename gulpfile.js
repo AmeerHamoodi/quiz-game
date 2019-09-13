@@ -4,7 +4,7 @@ var exec = require('child_process').exec;
 const nodemon = require("gulp-nodemon");
 
 function build(){
-  return gulp.src('./src/client/js/main.js')
+  return gulp.src('./src/client/js/*.js')
     .pipe(webpack(require("./webpack.config.js")))
     .pipe(gulp.dest("./dist/client/js"));
     console.log("building");
@@ -19,7 +19,7 @@ function css(){
     .pipe(gulp.dest("./dist/client/css"))
 }
 function watchJS(){
-  gulp.watch('src/client/js/main.js', build);
+  gulp.watch('src/client/js/*.js', build);
 }
 function watchHTML(){
   gulp.watch('src/client/*.html', html);
@@ -37,6 +37,8 @@ function startServer(){
   , ext: 'js html'
   , env: { 'NODE_ENV': 'development' }
   })
+  return gulp.src("./src/*.js")
+    .pipe(gulp.dest("./dist/"))
 }
 module.exports.build = build;
 module.exports.html = html;

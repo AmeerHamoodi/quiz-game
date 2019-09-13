@@ -1,9 +1,11 @@
 module.exports = {
   entry: {
-    main: './src/client/js/main.js'
+    main: './src/client/js/main.js',
+    room: './src/client/js/rooms.js',
+    game: './src/client/js/game.js'
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: __dirname + "./dist/client/js"
   },
   module: {
