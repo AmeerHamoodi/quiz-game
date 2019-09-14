@@ -8,6 +8,12 @@ function socketSetup() {
       elemHandler.room(data[i], i);
     }
   });
+  socket.on("lobbies", (data) => {
+    for(let i = 0; i < data.length; i++){
+      elemHandler.clear();
+      elemHandler.room(data[i], i);
+    }
+  })
 }
 
 for(i=0; i < elemHandler.rooms; i++){

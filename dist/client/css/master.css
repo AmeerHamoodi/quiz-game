@@ -7,8 +7,19 @@ body, html {
   font-family: monospace;
   color: white;
 }
+/*taken from GitHub source code
+*/
+.anim-rainbow {
+  margin-top: -5%;
+  height: 1vh;
+    background: linear-gradient(270deg,#7CDBD5 7.1%,#F9BE02 28.4%,#F53240 42.6%,#7CDBD5 56.8%,#F9BE02 71%,#F53240 92.9%,#7CDBD5);
+    background-size: 200% 100%;
+    animation: MakeItRainbow 4s linear infinite
+}
+/*taken from GitHub source code
+*/
 .logo {
-  font-size: 10em;
+  font-size: 8em;
   text-align: center;
   margin-top: 0;
 }
@@ -48,6 +59,7 @@ body, html {
 }
 .account {
   opacity: 0;
+  position: relative;
 }
 .accountV {
   width: 100%;
@@ -171,4 +183,41 @@ body, html {
   background-color: #7cdbd5;
   box-shadow: 10px 4px 5px rgba(131, 166, 247, 1);
   animation: bgBs 1s;
+}
+.options {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#q_1 {
+  border: none;
+  background-color: transparent;
+  width: 0;
+  height: 0;
+  border-top: 100px solid #7cdbd5;
+  border-right: 100px solid transparent;
+}
+#q_2 {
+  border: none;
+  background-color: transparent;
+  width: 0;
+  height: 0;
+  border-top: 100px solid #7cdbd5;
+  border-left: 100px solid transparent;
+}
+#q_3 {
+  border: none;
+  background-color: transparent;
+  width: 0;
+  height: 0;
+  border-bottom: 100px solid #7cdbd5;
+  border-right: 100px solid transparent;
+}
+#q_4 {
+  border: none;
+  background-color: transparent;
+  width: 0;
+  height: 0;
+  border-bottom: 100px solid #7cdbd5;
+  border-left: 100px solid transparent;
 }

@@ -29,5 +29,7 @@ exports.room = function (room, e) {
 
   document.getElementById('games').appendChild(con);
 }
-
+exports.clear = function() {
+  document.getElementById('games').innerHTML = "";
+}
 exports.rooms = rooms;

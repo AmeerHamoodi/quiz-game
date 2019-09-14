@@ -16,3 +16,20 @@
 		background-color: rgba(124, 219, 213);
 	}
 }
+/*taken from GitHub source code
+*/
+@keyframes MakeItRainbow {
+    0% {
+        background-position: 0 0
+    }
+
+    50% {
+        background-position: -100% 0
+    }
+
+    to {
+        background-position: -200% 0
+    }
+}
+/*taken from GitHub source code
+*/
