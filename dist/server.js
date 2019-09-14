@@ -76,7 +76,7 @@ var lobbies = [];
 var users = [];
 var htmlDir = __dirname + "/client";
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
 console.log("Starting server");
 
 app.get("/", function(req, res){
