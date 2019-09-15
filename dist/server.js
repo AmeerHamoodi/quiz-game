@@ -1,5 +1,8 @@
 var questions =  [
   {
+    question: "Are you ready?????"
+  },
+  {
     question: "What system plays a vital role in the existence of the human species?",
     answers: ["cardiovascular system", "respiratory system", "digestive system", "reproductive system"]
   },
@@ -76,7 +79,7 @@ var lobbies = [];
 var users = [];
 var htmlDir = __dirname + "/client";
 
-server.listen(process.env.PORT || 3000);
+server.listen(3000);
 console.log("Starting server");
 
 app.get("/", function(req, res){

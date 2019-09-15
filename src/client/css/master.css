@@ -12,9 +12,9 @@ body, html {
 .anim-rainbow {
   margin-top: -5%;
   height: 1vh;
-    background: linear-gradient(270deg,#7CDBD5 7.1%,#F9BE02 28.4%,#F53240 42.6%,#7CDBD5 56.8%,#F9BE02 71%,#F53240 92.9%,#7CDBD5);
-    background-size: 200% 100%;
-    animation: MakeItRainbow 4s linear infinite
+  background: linear-gradient(270deg,#7CDBD5 7.1%,#F9BE02 28.4%,#F53240 42.6%,#7CDBD5 56.8%,#F9BE02 71%,#F53240 92.9%,#7CDBD5);
+  background-size: 200% 100%;
+  animation: MakeItRainbow 4s linear infinite
 }
 /*taken from GitHub source code
 */
@@ -184,6 +184,9 @@ body, html {
   box-shadow: 10px 4px 5px rgba(131, 166, 247, 1);
   animation: bgBs 1s;
 }
+.questions {
+  display: none;
+}
 .options {
   position: absolute;
   left: 50%;
@@ -221,3 +224,130 @@ body, html {
   border-bottom: 100px solid #7cdbd5;
   border-left: 100px solid transparent;
 }
+/* taken from code pen:
+	@author:  Mike Mangialardi
+	@source: https://codepen.io/mikemang/pen/WRPjbd
+	*/
+.box{
+  position: relative;
+  background: none;
+  width: 600px;
+  height: 400px;
+  display: block;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.container{
+  position: absolute;
+  width: 40%;
+  height: 50%;
+  background: none;
+  top: 25%;
+  left: 30%;
+  animation: rotate 2s infinite;
+}
+
+.container2{
+  position: absolute;
+  width: 40%;
+  height: 50%;
+  background: none;
+  top: 25%;
+  left: 30%;
+  animation: shake 2s infinite;
+}
+
+.glass{
+  position: absolute;
+  height: 80%;
+  width: 20%;
+  background: #B5F0E8;
+  opacity: 0.7;
+  top: 20%;
+  left: 40%;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  z-index: 2;
+}
+
+.cap-left{
+  position: absolute;
+  width: 50%;
+  height: 15%;
+  top: -15%;
+  background: #B9661C;
+}
+.cap-right{
+  position: absolute;
+  width: 50%;
+  height: 15%;
+  top: -15%;
+  right: 0%;
+  background: #9A501D;
+}
+
+.fill{
+  position: absolute;
+  height: 90%;
+  width: 80%;
+  background: #DA0000;
+  opacity: 0.8;
+  bottom: 5%;
+  left: 10%;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  animation: slime 2.5s infinite;
+  z-index: 1;
+}
+
+.bubble-1{
+  position: absolute;
+  height: 10%;
+  width: 35%;
+  top: 10%;
+  left: 15%;
+  border-radius: 50%;
+  background: #bf0303;
+}
+
+.bubble-2{
+  position: absolute;
+  height: 8%;
+  width: 33%;
+  top: 25%;
+  right: 15%;
+  border-radius: 50%;
+  background: #bf0303;
+}
+
+.bubble-3{
+  position: absolute;
+  height: 10%;
+  width: 35%;
+  top: 40%;
+  left: 15%;
+  border-radius: 50%;
+  background: #bf0303;
+}
+
+.bubble-4{
+  position: absolute;
+  height: 8%;
+  width: 33%;
+  top: 55%;
+  right: 15%;
+  border-radius: 50%;
+  background: #bf0303;
+}
+
+.bubble-5{
+  position: absolute;
+  height: 8%;
+  width: 33%;
+  top: 75%;
+  left: 15%;
+  border-radius: 50%;
+  background: #bf0303;
+}
+/*end*/
