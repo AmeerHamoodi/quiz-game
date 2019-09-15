@@ -125,10 +125,12 @@ class Room{
   sendQuestions(){
     this.phase = "response";
     console.log(this.phase);
-    io.emit("question", questions[0]);
+    io.emit("question", questions[this.count]);
+    this.response();
   }
   response() {
     this.count++;
+    console.log(this.count);
     if(this.count % 2 == 0){
       this.phase = "game";
     }
@@ -177,8 +179,14 @@ function sendQuestions() {
   for(let i=0; i < lobbies.length; i ++){
     if(lobbies[i].phase == "game" && lobbies[i].phase != "response"){
       lobbies[i].sendQuestions();
+      respond();
     }
   }
+}
+function respond() {
+  setTimeout(function() {
+    lobbies[0].response();
+  }, 4000);
 }
 setInterval(sendQuestions, 500);
 setInterval(checkRooms, 500);

@@ -37,8 +37,6 @@ function startServer(){
   , ext: 'js html'
   , env: { 'NODE_ENV': 'development' }
   })
-  return gulp.src("./src/*.js")
-    .pipe(gulp.dest("./dist/"))
 }
 module.exports.build = build;
 module.exports.html = html;

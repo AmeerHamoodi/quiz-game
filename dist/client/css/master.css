@@ -19,9 +19,10 @@ body, html {
 /*taken from GitHub source code
 */
 .logo {
-  font-size: 8em;
+  font-size: 50px;
   text-align: center;
   margin-top: 0;
+  font-size: 6vw;
 }
 .head {
   position: relative;
@@ -186,43 +187,15 @@ body, html {
 }
 .questions {
   display: none;
+  height: 20vh;
 }
 .options {
+  display: flex;
+  flex-flow: row;
+  flex-direction: row;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-}
-#q_1 {
-  border: none;
-  background-color: transparent;
-  width: 0;
-  height: 0;
-  border-top: 100px solid #7cdbd5;
-  border-right: 100px solid transparent;
-}
-#q_2 {
-  border: none;
-  background-color: transparent;
-  width: 0;
-  height: 0;
-  border-top: 100px solid #7cdbd5;
-  border-left: 100px solid transparent;
-}
-#q_3 {
-  border: none;
-  background-color: transparent;
-  width: 0;
-  height: 0;
-  border-bottom: 100px solid #7cdbd5;
-  border-right: 100px solid transparent;
-}
-#q_4 {
-  border: none;
-  background-color: transparent;
-  width: 0;
-  height: 0;
-  border-bottom: 100px solid #7cdbd5;
-  border-left: 100px solid transparent;
 }
 /* taken from code pen:
 	@author:  Mike Mangialardi

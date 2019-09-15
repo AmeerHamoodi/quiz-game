@@ -4,7 +4,7 @@ socket.emit("room", r);
 
 
 
-function setup() {
+(function setup() {
   let c = 0;
   socket.on("start", (data) => {
     document.getElementsByClassName('logo')[0].innerText = data.message;
@@ -18,8 +18,19 @@ function setup() {
       document.getElementById('container').classList.add("container2");
     } else {
       document.getElementById('q').style.display = "block";
+      document.getElementsByClassName('box')[0].style.display = "none";
+      document.getElementsByClassName('logo')[0].innerText = data.question;
+      document.getElementsByClassName('questions')[0].innerHTML = "";
+      let cont = document.createElement("div");
+      cont.classList.add("options");
+      document.getElementsByClassName('questions')[0].appendChild(cont);
+      for(i=0; i < data.answers.length; i++){
+        let a = data.answers[i];
+        let span = document.createElement("span");
+        span.innerText = (i + 1) + ". " + a;
+        cont.appendChild(span);
+      }
     }
     c++;
   });
-}
-setup();
+})();
