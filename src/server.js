@@ -1,14 +1,83 @@
+var questions =  [
+  {
+    question: "Are you ready?????"
+  },
+  {
+    question: "What system plays a vital role in the existence of the human species?",
+    answers: ["cardiovascular system", "respiratory system", "digestive system", "reproductive system"]
+  },
+  {
+    question: "What type of cell does not have membrane-bound organelles?",
+    answers: ["plant", "eukaryotic", "somatic", "prokaryotic"]
+  },
+  {
+    question: "An ATP molecule is made up of",
+    answers: [
+      "matrix, inner membrane, and outer membrane.",
+      "NADH, NADPH, and FADH.",
+      "adenine, phosphate groups, and ribose.",
+      "adenine, phosphate groups, and ribose."
+    ]
+  },
+  {
+    question: "Are enzymes reusable?",
+    answers: ["yes", "no", "sometimes", "only when they're happy"]
+  },
+  {
+    question: "How many major categories of macromolecules are there?",
+    answers: ["2", "3", "4", "5"]
+  },
+  {
+    question: "Which is not a part of the circulatory system?",
+    answers: ["lung", "heart", "blood", "oxygen"]
+  },
+  {
+    question: "What property makes phospholipids the ideal organic molecule to make up the cell membrane?",
+    answers: [
+      "Phospholipids dissolve easily in water, so materials can pass through them without the need for energy.",
+      "Phospholipids contain many mitochondria, so the cell membrane has all the energy it needs to undergo mitosis.",
+      "Phospholipids maintain their shape all the time, so organisms made from these cells can grow very large.",
+      "Phospholipids have hydrophobic and hydrophilic ends, so cells can live in an aqueous environment and still carry out all their functions."
+    ]
+  },
+  {
+    question: "Protein-building information is carried from the nucleus to the ribosomes by",
+    answers: [
+      "DNA.",
+      "endoplasmic reticulum.",
+      "vacuoles.",
+      "RNA."
+    ]
+  },
+  {
+    question: "All are properties of water except",
+    answers: [
+      "adhesion.",
+      "cohesion",
+      "heat capacity.",
+      "enzyme ability."
+    ]
+  },
+  {
+    question: "Enzymes and some hormones are examples of",
+    answers: [
+      "proteins.",
+      "carbohydrates.",
+      "lipids.",
+      "nucleic acids."
+    ]
+  }
+]
+
 const express = require("express");
 const utils = require("./utils.js");
 var app = express();
 var server = require("http").Server(app);
 var SOCKET_LIST = {};
 var rString = utils.randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-var lobbies = [{name:"default", id:rString, people:0, max:2, category: "Biology"}];
+var lobbies = [];
 var users = [];
 var htmlDir = __dirname + "/client";
-
-var questions = require("./questions.js");
 
 server.listen(3000);
 console.log("Starting server");
@@ -41,21 +110,34 @@ class Room{
   constructor(id, name){
     this.id = id;
     this.name = name;
-    this.people = 2;
+    this.people = 0;
     this.max = 2;
     this.users = [];
     this.category = "Biology";
     this.phase = "menu";
     this.q = 0;
+    this.count = 0;
   }
   startGame(){
-    io.to(this.name).emit("start", {message: "Starting game . . . "});
     this.phase = "game";
+    io.emit("start", {message: "Starting game . . . "});
   }
   sendQuestions(){
-    io.to(this.name).emit("question", {q: questions[0].question, a: questions[0].answers});
+    this.phase = "response";
+    console.log(this.phase);
+    io.emit("question", questions[this.count]);
+    this.response();
+  }
+  response() {
+    this.count++;
+    console.log(this.count);
+    if(this.count % 2 == 0){
+      this.phase = "game";
+    }
   }
 }
+
+lobbies.push(new Room(rString, "default"));
 
 io.on("connection", function(socket){
   socket.id = Math.random();
@@ -68,33 +150,10 @@ io.on("connection", function(socket){
   for(i=0; i < lobbies.length; i++){
     io.to("default").emit("lobbies", lobbies[i]);
   }
-  socket.on("newLobby", function(data){
-    let u;
-    let ri = utils.randomString(5, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-    let n = data;
-    lobbies.push(new Room(ri, n));
-    for(e=0; e < users.length; e++){
-      if(users[e].id == socket.id){
-        u = users[e];
-      }
-    }
-    for(i=0; i < lobbies.length; i++){
-      if(lobbies[i].id == ri){
-        lobbies[i].users.push(u);
-        lobbies[i].people++;
-        socket.leave("default");
-        socket.join(n);
-        socket.room = n;
-        socket.broadcast.emit("lobbies", lobbies[i]);
-        socket.emit("lob", {id: lobbies[i].id, name: lobbies[i].name});
-      }
-    }
-  });
 
   socket.on("room", function(data) {
-    socket.join(data);
-    socket.leave("default");
-    socket.room = data;
+    lobbies[0].people++
+    console.log(lobbies[0].people);
   });
 
   socket.on("disconnect", function(data){
@@ -108,11 +167,26 @@ io.on("connection", function(socket){
 });
 
 function checkRooms() {
-  for(i=0; i < lobbies.length; i ++){
-    console.log("checking");
+  for(let i=0; i < lobbies.length; i ++){
     if(lobbies[i].people >= 2){
-      lobbies[i].startGame();
+      if(lobbies[i].phase == "menu"){
+        lobbies[i].startGame();
+      }
     }
   }
 }
+function sendQuestions() {
+  for(let i=0; i < lobbies.length; i ++){
+    if(lobbies[i].phase == "game" && lobbies[i].phase != "response"){
+      lobbies[i].sendQuestions();
+      respond();
+    }
+  }
+}
+function respond() {
+  setTimeout(function() {
+    lobbies[0].response();
+  }, 4000);
+}
+setInterval(sendQuestions, 500);
 setInterval(checkRooms, 500);

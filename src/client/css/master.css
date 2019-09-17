@@ -197,6 +197,9 @@ body, html {
   left: 50%;
   transform: translateX(-50%);
 }
+.options span::after {
+  margin-left: 5%;
+}
 /* taken from code pen:
 	@author:  Mike Mangialardi
 	@source: https://codepen.io/mikemang/pen/WRPjbd
