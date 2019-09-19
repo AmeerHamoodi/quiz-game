@@ -76,6 +76,9 @@ var questions =  [
       "nucleic acids."
     ],
     correct: 0
+  },
+  {
+    question: "Game Over!"
   }
 ]
 
@@ -145,6 +148,13 @@ class Room{
       this.phase = "game";
     }
   }
+  checkResponse(index){
+    if(questions[this.count].correct == index){
+      return true
+    } else {
+      return false;
+    }
+  }
 }
 
 lobbies.push(new Room(rString, "default"));
@@ -164,7 +174,7 @@ io.on("connection", function(socket){
   socket.on("room", function(data) {
     lobbies[0].people++
     console.log(lobbies[0].people);
-    socket.emit("lob", lobbies[0].id);
+    socket.emit("lob", "lobby="+lobbies[0].id);
   });
 
   socket.on("disconnect", function(data){
@@ -201,7 +211,9 @@ function respond() {
 }
 function clientResponse() {
   for(var i in SOCKET_LIST){
+    var socket = SOCKET_LIST[i];
     socket.on("answer", function(data) {
+      console.log(data);
       if(lobbies[0].checkResponse(data)){
         socket.emit("response", {response: true});
       } else {
@@ -210,5 +222,6 @@ function clientResponse() {
     });
   }
 }
+clientResponse();
 setInterval(sendQuestions, 500);
 setInterval(checkRooms, 500);

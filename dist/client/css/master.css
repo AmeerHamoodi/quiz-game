@@ -43,6 +43,9 @@ body, html {
   height: 90vh;
   background-color: #F53240;
 }
+.content {
+  position: relative;
+}
 .aboutV {
   position: relative;
   width: 100%;
@@ -188,6 +191,10 @@ body, html {
 .questions {
   display: none;
   height: 20vh;
+  background-color: white;
+  width: 60%;
+  position: absolute;
+  left: 20%;
 }
 .options {
   display: flex;
@@ -196,13 +203,17 @@ body, html {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  word-wrap: break-word;
 }
-.options span::after {
-  margin-left: 5%;
+.options span {
+  margin-right: 4%;
+}
+span {
+  color: black;
 }
 /* taken from code pen:
-	@author:  Mike Mangialardi
-	@source: https://codepen.io/mikemang/pen/WRPjbd
+	@author  Mike Mangialardi
+	@source https://codepen.io/mikemang/pen/WRPjbd
 	*/
 .box{
   position: relative;
