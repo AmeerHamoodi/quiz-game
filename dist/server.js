@@ -78,6 +78,9 @@ var questions =  [
     correct: 0
   },
   {
+    
+  }
+  {
     question: "Game Over!"
   }
 ]
@@ -149,7 +152,7 @@ class Room{
     }
   }
   checkResponse(index){
-    if(questions[this.count].correct == index){
+    if(questions[this.count - 1].correct == index && this.count > 13){
       return true
     } else {
       return false;
@@ -209,11 +212,11 @@ function respond() {
     lobbies[0].response();
   }, 4000);
 }
-function clientResponse() {
+setInterval(function(){
+  //game loop
   for(var i in SOCKET_LIST){
     var socket = SOCKET_LIST[i];
     socket.on("answer", function(data) {
-      console.log(data);
       if(lobbies[0].checkResponse(data)){
         socket.emit("response", {response: true});
       } else {
@@ -221,7 +224,6 @@ function clientResponse() {
       }
     });
   }
-}
-clientResponse();
+}, 700);
 setInterval(sendQuestions, 500);
 setInterval(checkRooms, 500);
