@@ -1,7 +1,11 @@
 var socket = require("socket.io-client")(),
   r = document.cookie,
-  bird = require("./bird.js"),
-  letterOptions = ["a", "b", "c", "d"];
+  letterOptions = ["a", "b", "c", "d"],
+  player = {
+    id: null,
+    score: 0,
+    name: null
+  };
 
 (function setup() {
   let c = 0;
@@ -10,7 +14,8 @@ var socket = require("socket.io-client")(),
     document.getElementsByClassName('logo')[0].innerText = data.message;
   });
   socket.on("lob", (data) => {
-    window.location.hash = data;
+    window.location.hash = data.lob;
+    player.id = data.id;
   })
   socket.on("question", (data) => {
     if(c < 1){
@@ -20,8 +25,8 @@ var socket = require("socket.io-client")(),
       document.getElementById('container').classList.remove('container');
       document.getElementById('container').classList.add("container2");
     } else {
-      bird.beNice();
       enable();
+      document.getElementsByClassName('response')[0].innerHTML = "";
       let cont = document.getElementsByClassName('options');
       document.getElementsByClassName('aboutV')[0].style.display = "block";
       document.getElementById('q').style.display = "block";
@@ -37,18 +42,16 @@ var socket = require("socket.io-client")(),
         document.getElementsByClassName('options')[0].appendChild(span);
         document.getElementsByClassName('options')[0].appendChild(br);
         document.getElementsByClassName('options')[0].appendChild(br2);
-        console.log(data.question);
       }
     }
     c++;
   });
 
-  socket.on("respone", (data) => {
-    console.log(data);
+  socket.on("response", (data) => {
     if(data.response) {
-      alert("Correct");
+      document.getElementsByClassName('response')[0].innerText = "Nice you got it right!";
     } else {
-      alert("False :(");
+      document.getElementsByClassName('response')[0].innerText = "That's an F in the chat, rip you got it wrong :(";
     }
   })
 })();
@@ -56,25 +59,21 @@ var socket = require("socket.io-client")(),
 function eventListen() {
   console.log(document.getElementById('0'));
     document.getElementById("0").addEventListener("click", (event) => {
-      socket.emit("answer", 0);
+      socket.emit("answer", {ans: 0, id: player.id});
       console.log("hitt");
       document.getElementsByClassName('aboutV')[0].style.display = "none";
-      bird.chirp();
       document.getElementById("0").disabled = true;
     }), document.getElementById("1").addEventListener("click", (event) => {
-      socket.emit("answer", 1);
+      socket.emit("answer", {ans: 1, id: player.id});
       document.getElementsByClassName('aboutV')[0].style.display = "none";
-      bird.chirp();
       document.getElementById("1").disabled = true;
     }), document.getElementById("2").addEventListener("click", (event) => {
-      socket.emit("answer", 2);
+      socket.emit("answer", {ans: 2, id: player.id});
       document.getElementsByClassName('aboutV')[0].style.display = "none";
-      bird.chirp();
       document.getElementById("2").disabled = true;
     }), document.getElementById("3").addEventListener("click", (event) => {
-      socket.emit("answer", 3);
+      socket.emit("answer", {ans: 3, id: player.id});
       document.getElementsByClassName('aboutV')[0].style.display = "none";
-      bird.chirp();
       document.getElementById("3").disabled = true;
     });
 }

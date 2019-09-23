@@ -1,6 +1,7 @@
 var questions =  [
   {
-    question: "Are you ready?????"
+    question: "Are you ready?????",
+    time: 5000
   },
   {
     question: "What system plays a vital role in the existence of the human species?",
@@ -78,8 +79,8 @@ var questions =  [
     correct: 0
   },
   {
-    
-  }
+
+  },
   {
     question: "Game Over!"
   }
@@ -152,8 +153,8 @@ class Room{
     }
   }
   checkResponse(index){
-    if(questions[this.count - 1].correct == index && this.count > 13){
-      return true
+    if(questions[this.count - 1].correct == index){
+      return true;
     } else {
       return false;
     }
@@ -177,7 +178,7 @@ io.on("connection", function(socket){
   socket.on("room", function(data) {
     lobbies[0].people++
     console.log(lobbies[0].people);
-    socket.emit("lob", "lobby="+lobbies[0].id);
+    socket.emit("lob", {lob: "lobby="+lobbies[0].id, id: socket.id});
   });
 
   socket.on("disconnect", function(data){
@@ -208,19 +209,31 @@ function sendQuestions() {
   }
 }
 function respond() {
+  let c = 0,
+    time = null;
   setTimeout(function() {
+    if(typeof questions[c].time !== "undefined"){
+      time = questions[c].time;
+    } else {
+      time = 15000;
+    }
     lobbies[0].response();
-  }, 4000);
+    c++
+  }, 10000);
 }
 setInterval(function(){
   //game loop
   for(var i in SOCKET_LIST){
     var socket = SOCKET_LIST[i];
     socket.on("answer", function(data) {
-      if(lobbies[0].checkResponse(data)){
-        socket.emit("response", {response: true});
+      if(lobbies[0].checkResponse(data.ans)){
+        if(socket.id == data.id){
+          socket.emit("response", {response: true});
+        }
       } else {
-        socket.emit("response", {response: false});
+        if(socket.id == data.id){
+          socket.emit("response", {response: false});
+        }
       }
     });
   }
