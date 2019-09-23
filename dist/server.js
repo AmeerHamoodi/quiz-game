@@ -159,6 +159,10 @@ class Room{
       return false;
     }
   }
+  restart() {
+    this.count = 0;
+    this.phase = "menu";
+  }
 }
 
 lobbies.push(new Room(rString, "default"));
@@ -186,6 +190,9 @@ io.on("connection", function(socket){
       if(users[i].id == socket.id){
         users[i].disconnect();
         users.splice(i, 1);
+        lobbies[0].restart();
+        console.log("restarted");
+        socket.emit("user", {code: "Oh boy, you scared the other guy off so they disconnected"});
       }
     }
   });
@@ -202,9 +209,13 @@ function checkRooms() {
 }
 function sendQuestions() {
   for(let i=0; i < lobbies.length; i ++){
-    if(lobbies[i].phase == "game" && lobbies[i].phase != "response"){
+    if(lobbies[i].phase == "game" && lobbies[i].phase != "response" && lobbies[i].people >= 2){
       lobbies[i].sendQuestions();
       respond();
+      if(lobbies[i].count >= 13){
+        lobbies[i].count = 0;
+        lobbies[i].startGame();
+      }
     }
   }
 }

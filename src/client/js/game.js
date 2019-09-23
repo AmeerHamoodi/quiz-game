@@ -42,6 +42,9 @@ var socket = require("socket.io-client")(),
         document.getElementsByClassName('options')[0].appendChild(span);
         document.getElementsByClassName('options')[0].appendChild(br);
         document.getElementsByClassName('options')[0].appendChild(br2);
+        if(data.question == "Game Over!"){
+          c = -1;
+        }
       }
     }
     c++;
@@ -53,6 +56,13 @@ var socket = require("socket.io-client")(),
     } else {
       document.getElementsByClassName('response')[0].innerText = "That's an F in the chat, rip you got it wrong :(";
     }
+  });
+
+  socket.on("user", (data) => {
+    console.log(data);
+    document.getElementsByClassName('logo')[0].innerText = data.code;
+    document.getElementsByClassName('questions')[0].style.display = "none";
+    document.getElementsByClassName('answer')[0].style.display = "none";
   })
 })();
 
